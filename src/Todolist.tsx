@@ -1,6 +1,6 @@
 import {Button} from "./Button.tsx";
 import {FilterValue} from "./App.tsx";
-import {useRef} from "react";
+import {useState} from "react";
 
 type Props = {
     title: string
@@ -24,7 +24,9 @@ export const Todolist = ({
                              createTask
                          }: Props) => {
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    // const inputRef = useRef<HTMLInputElement>(null);
+
+    const [taskTitle, setTaskTitle] = useState("")
 
     const tasksList = tasks.length === 0
         ? <span>Your tasklist is empty</span>
@@ -44,17 +46,31 @@ export const Todolist = ({
             }
         </ul>
 
+    const createTaskHandler = () => {
+        createTask(taskTitle)
+        setTaskTitle('')
+    }
+
     return (
         <div className="todolist">
             <h3>{title}</h3>
             <div>
-                <input ref={inputRef}/>
-                <Button title={'+'} onClickHandler={() => {
-                   if (inputRef.current){
-                       createTask(inputRef.current.value)
-                       inputRef.current.value = ''
-                   }
-                }}/>
+                <input
+                    value={taskTitle}
+                    onChange={e => setTaskTitle(e.currentTarget.value)}
+                    onKeyDown={e => e.key === 'Enter' && createTaskHandler()}
+                    placeholder={"max 15 charters"}
+                />
+                <Button
+                    title={'+'}
+                    disabled={taskTitle === '' || taskTitle.length >= 15}
+                    onClickHandler={() => {
+                        createTaskHandler()
+                    }}
+                />
+                {taskTitle && taskTitle.length <= 15 && <div>max 15 charters</div>}
+                {taskTitle.length > 15 && <div style={{color: 'red'}}> 15 charters</div>}
+
             </div>
             {tasksList}
             <div>
