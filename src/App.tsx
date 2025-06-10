@@ -39,6 +39,11 @@ export const App = () => {
         setTask(nextState)
     }
 
+    const changeTaskStatus = (taskId: Task["id"]) => {
+        const nextState: Task[] = tasks.map(t => t.id === taskId ? {...t, isDone: !t.isDone}: t)
+        setTask(nextState)
+    }
+
     // UI
 
     const [filter, setFilter] = useState<FilterValue>('all')
@@ -63,6 +68,7 @@ export const App = () => {
                 deleteTask={deleteTask}
                 changeFilter={changeFilter}
                 createTask={createTask}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     )
