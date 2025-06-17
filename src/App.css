@@ -6,3 +6,19 @@
 .app > div {
   margin-right: 50px;
 }
+
+
+.task {
+  font-weight: bold;
+}
+
+.task-done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.btn-filter-active {
+  background-color: #81414a;
+  border: 2px solid #4f2001;
+  color: white;
+}
