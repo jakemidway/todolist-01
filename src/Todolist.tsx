@@ -1,6 +1,6 @@
 import {Button} from "./Button.tsx";
 import {FilterValue} from "./App.tsx";
-import {useState} from "react";
+import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type Props = {
     title: string
@@ -37,6 +37,7 @@ export const Todolist = ({
         : <ul>
             {
                 tasks.map(task => {
+
                     return (
                         <li key={task.id} className={task.isDone ? 'task-done' : 'task'}>
                             <input
@@ -54,19 +55,31 @@ export const Todolist = ({
             }
         </ul>
 
+
+    //// HANDLERS
+
+    const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTaskTitle(event.currentTarget.value)
+    }
+    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            createTaskHandler()
+        }
+    }
     const createTaskHandler = () => {
         createTask(taskTitle)
         setTaskTitle('')
     }
 
+    //// RETURN
     return (
         <div className="todolist">
             <h3>{title}</h3>
             <div>
                 <input
                     value={taskTitle}
-                    onChange={e => setTaskTitle(e.currentTarget.value)}
-                    onKeyDown={e => e.key === 'Enter' && createTaskHandler()}
+                    onChange={changeTaskTitleHandler}
+                    onKeyDown={createTaskOnEnterHandler}
                     placeholder={"max 15 charters"}
                 />
                 <Button
